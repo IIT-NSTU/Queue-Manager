@@ -4,6 +4,8 @@ package class_project;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -12,17 +14,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
-public class Home_ary extends JFrame{
+public class Home_ary extends JFrame implements ActionListener{
     private Container con;
     private Font f,bo,ns;
     private JComboBox type;
     private String item [] = {"Medicine","Arthopedic"};
     private ButtonGroup grp;
     private JRadioButton male,fe,sm;
-    private JScrollPane jsp;
+    private DefaultTableModel model;
     
     JPanel panel [] = new JPanel[3];
     JLabel label [] = new JLabel[16];
@@ -31,7 +35,9 @@ public class Home_ary extends JFrame{
     JButton btn[] = new JButton[20];
     JScrollPane pane;
     JButton button[] = new JButton[10];
-    String rows[][] = new String[100][4];
+    String colms[] = {"Serial No.", "Name", "Age","Sex","Description"};
+    String rows[][] = new String[100][100];
+    JTable table [] = new JTable[100];
     
     Home_ary()
     {
@@ -63,7 +69,7 @@ public class Home_ary extends JFrame{
         // panel for list of servics//
         panel[2] = new JPanel();
         panel[2].setBounds(460,50,800,500);
-        panel[2].setBackground(new Color(123,234,175));
+        panel[2].setBackground(new Color(155,193,233));
         panel[2].setLayout(null);
         con.add(panel[2]);
         
@@ -81,6 +87,7 @@ public class Home_ary extends JFrame{
         button[1].setFont(bo);
         button[1].setBounds(130,340,150,50);
         panel[1].add(button[1]);
+        button[1].addActionListener(this);
         
          //label for Menu panel 1//
         button[2] = new JButton("Menu");
@@ -173,9 +180,33 @@ public class Home_ary extends JFrame{
         
         
     }
+   
     
     private void table()
     {
+        model = new DefaultTableModel();
+        model.setColumnIdentifiers(colms);
+        
+        table[1] = new JTable(rows,colms);
+        table[1].setFont(f);
+        table[1].setModel(model);
+        pane = new JScrollPane(table[1]);
+        pane.setBounds(5,5,790,490);
+        panel[2].add(pane);
+        
+        
+    }
+     
+    public void actionPerformed(ActionEvent e )
+    {
+        if(e.getSource()==button[1])
+        {
+            rows[0][1] =  jtf[1].getText();
+            rows[0][2] = jta[1].getText();
+           // rows[0][3] = 
+           rows[0][4] = jta[2].getText();
+           model.addRow(rows);
+        }
         
     }
     public static void main(String[] args) {
