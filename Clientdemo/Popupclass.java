@@ -3,36 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Serverdemo;
+package Clientdemo;
 
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import Populate.*;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 /**
  *
  * @author KOCHI
  */
 public class Popupclass extends JPopupMenu implements ActionListener{
-    JMenuItem itm[]=new JMenuItem[10];
-    Home h1;
-    int flag=0;
-    RunningServicesTable rst;
-    public Popupclass(RunningServicesTable rst)
+      JMenuItem itm[]=new JMenuItem[10];
+      Home1 h1;
+    public Popupclass(JTable tb,Home1 h1)
     {
-        itm[1]=new JMenuItem("Delete");
+        itm[1]=new JMenuItem("Call");
         itm[2]=new JMenuItem("Edit");
-        this.rst=rst;
+        this.h1=h1;
         
        this.add(itm[1]);
-       this.add(new Separator());
+       this.add(new JPopupMenu.Separator());
        this.add(itm[2]);
        itm[1].addActionListener(this);
     }
@@ -41,16 +38,18 @@ public class Popupclass extends JPopupMenu implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getSource()==itm[1])
         {
+               // h1.st.Senddata("0","Remove",""+h1.table[1].getSelectedRow());
+            h1.setrunningservice(h1.table[1].getValueAt(0,0).toString(), h1.table[1].getValueAt(0,1).toString(),h1.table[1].getValueAt(0,2).toString(),h1.table[1].getValueAt(0,3).toString());
             try {
-                //   h1.st.Senddata("0","Remove",""+h1.table[1].getSelectedRow());
-                // h1.update(h1.table[1].getSelectedRow());
-                // h1.model.removeRow(h1.table[1].getSelectedRow());
-                System.out.println(rst.table[flag].getSelectedRow());
-                rst.update(rst.table[flag].getSelectedRow(), flag);
-            } catch (IOException ex) {
+               // h1.rt.send(h1.table[1].getSelectedRow(),"Delete");
+            } catch (Exception ex) {
                 Logger.getLogger(Popupclass.class.getName()).log(Level.SEVERE, null, ex);
             }
-               JOptionPane.showMessageDialog(null,"DELETED");
+          //  h1.model.removeRow(h1.table[1].getSelectedRow());
+          h1.update(h1.table[1].getSelectedRow());
+             
+               JOptionPane.showMessageDialog(null,"ADDED");
         }
     }
+    
 }
